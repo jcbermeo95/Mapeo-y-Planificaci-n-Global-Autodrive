@@ -56,6 +56,8 @@ git clone [https://github.com/jcbermeo95/Mapeo-y-Planificaci-n-Global-Autodrive.
 ```
 Se recomienda cambiar el nombre del repositorio a Repositorio. Ahora crear una carpeta dentro del repositorio descargado , ubicado en Home, con el nombre de python_motion_planning y agregar las carpetas de common, controller, path_planner y traj_optimizer, además del archivo __init__.py. Previo a mover los archivos pgm y yaml creados en el paso del mapeo a la carpeta Mapas-F1 Tenth se debe modificar la pista generada agregando un obstáculo rectangular para indicar separar la región del punto inicial y final de la trayectoria generada por el algoritmo de planificación global, en este caso D*. Esta imagen tiene que convertirse a formato png y en el archivo yaml se tiene que modificar el nombre del camino con su respectiva extensión png en el parámetro image. 
 
+Detalles de la documentación de las carpetas common, controller,path_planner y traj_optimizer referirse al siguiente enlace con su documentación respectiva https://github.com/ai-winter/python_motion_planning. Para este proyecto se usó la versión 2.0.1. 
+
 Para generar las trayectorias de planificación global se tiene que ir al terminal realizar los siguientes comandos:
 ```bash
 cd Repositorio
