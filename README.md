@@ -24,7 +24,7 @@ Para la instalaciòn de AutoDRIVE Simulator, se recomienda seguir los pasos esta
 
 Para generar el mapeo (SLAM) en la pista del AutoDRIVE, se recomienda seguir los pasos establecidos en https://github.com/nabihandres/AUTODRIVE/blob/main/Tutorial%203%3A%20Simultaneous%20Localization%20and%20Maping.md
 
-La evidencia del mapeo generado en este proyecto se presentan en el video del siguiente enlace: https://www.youtube.com/watch?v=K4ekre-al0M. El resultado generado despuès del mapeo son un archivo pgm (mostrados en la figura 1) y un archivo yaml. En la imagen se ha modificado para colocar una barra horizontal negra para que el algoritmo de planificaciòn global pueda ser computado. 
+La evidencia del mapeo generado en este proyecto se presentan en el video del siguiente enlace: https://www.youtube.com/watch?v=K4ekre-al0M. El resultado generado despuès del mapeo son un archivo pgm (mostrados en la figura 1) y un archivo yaml. En la imagen se ha modificado para colocar una barra horizontal negra para que el algoritmo de planificaciòn global pueda ser computado. Dichos archivos se encuentran en el repositorio de esta página en la carpeta Mapas-F1 Tenth con F1tenth_map.pgm y F1tenth_map.yalm. 
 
 <p align="center">
   <img width="122" height="315" alt="F1tenth_map1" src="https://github.com/user-attachments/assets/27e8f7a4-1263-4af9-8bd0-964ba1ad8383" /><br>
