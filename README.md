@@ -54,4 +54,62 @@ Primero se requiere descargar el repositorio desde el terminal:
 ```bash
 git clone [https://github.com/jcbermeo95/Mapeo-y-Planificaci-n-Global-Autodrive.git](https://github.com/jcbermeo95/Mapeo-y-Planificaci-n-Global-Autodrive.git)
 ```
-Ahora crear una carpeta dentro del repositorio descargado , ubicado en Home, con el nombre de python_motion_planning y agregar las carpetas de common, controller, path_planner y traj_optimizer, además del archivo __init__.py. Crear ademàs otra carpeta en el repositorio con el nombre de Mapas-F1Tenth. Previo a mover los archivos pgm y yaml creados en el paso del mapeo se debe modificar la pista generada agregando un obstáculo rectangular para indicar separar la región del punto inicial y final de la trayectoria generada por el algoritmo de planificación global, en este caso D*. Esta imagen tiene que convertirse a formato png y en el archivo yaml se tiene que modificar el nombre del camino con su respectiva extensión png en el parámetro image. 
+Se recomienda cambiar el nombre del repositorio a Repositorio. Ahora crear una carpeta dentro del repositorio descargado , ubicado en Home, con el nombre de python_motion_planning y agregar las carpetas de common, controller, path_planner y traj_optimizer, además del archivo __init__.py. Crear ademàs otra carpeta en el repositorio con el nombre de Mapas-F1Tenth. Previo a mover los archivos pgm y yaml creados en el paso del mapeo se debe modificar la pista generada agregando un obstáculo rectangular para indicar separar la región del punto inicial y final de la trayectoria generada por el algoritmo de planificación global, en este caso D*. Esta imagen tiene que convertirse a formato png y en el archivo yaml se tiene que modificar el nombre del camino con su respectiva extensión png en el parámetro image. 
+
+Para generar las trayectorias de planificación global se tiene que ir al terminal realizar los siguientes comandos:
+```bash
+cd Repositorio
+python3 f1tenth_map.py
+```
+
+El resultado generado por este algoritmo de planificación global D* se evidencia en el siguiente enlace: https://youtu.be/RnizpRwMj-s. 
+
+<img width="284" height="633" alt="Screenshot from 2026-08-21 23-02-52" src="https://github.com/user-attachments/assets/f45551c4-ada2-4c6e-b799-cedb32502b14" />
+<img width="284" height="633" alt="Screenshot from 2026-08-21 23-03-02" src="https://github.com/user-attachments/assets/cf9f7787-59fa-4e8c-8a89-7e62dfcbe08b" />
+<img width="284" height="633" alt="Screenshot from 2026-08-21 23-03-08" src="https://github.com/user-attachments/assets/fc7e8797-737b-41e1-9e67-a927275dff2f" />
+
+La primera imagen representa a la trayectoria generada por el algoritmo D* sin suavizado de curva, la segunda imagen representa a la trayectoria con suavizado usando B-Spline y la tercera imagen es una comparación de las dos curvas.
+
+### Explicación del Algoritmo y Parámetros
+
+Este script implementa un pipeline completo de **planificación de movimiento para vehículos autónomos (F1Tenth)**, abarcando desde el procesamiento del mapa hasta la generación de trayectorias suaves y su exportación.
+
+---
+
+### Fases del Algoritmo
+
+1. **Carga y Procesamiento del Mapa (`load_map` y `grid_from_map`):**
+   * Lee la configuración YAML y la imagen PGM del mapa.
+   * Aplica un factor de reducción (*downsampling*) y binariza la imagen para distinguir espacios libres de obstáculos.
+   * Dilata los obstáculos para añadir un margen de seguridad (evita que el vehículo colisione con las paredes).
+   * Convierte la matriz resultante en una cuadrícula (`Grid`) estructurada para los algoritmos de búsqueda.
+
+2. **Transformación de Coordenadas:**
+   * Traduce las coordenadas del mundo real en metros (`x_start`, `y_start`, etc.) a índices de píxeles en la cuadrícula del mapa mediante `world_to_map()`.
+
+3. **Planificación de Ruta Global (D\*):**
+   * Utiliza el algoritmo **D\*** (*Dynamic A\****) para encontrar la ruta óptima basada en grafos desde el punto inicial (*start*) hasta la meta (*goal*). Es ideal para entornos estáticos o con replanificación dinámica.
+
+4. **Suavizado de Trayectoria (B-Splines):**
+   * La ruta inicial de D\* está compuesta por celdas discretas (en forma de cuadrícula escalonada). El generador **B-Spline** (`BSpline`) interpola y suaviza la curva para hacerla viable y continua para la dinámica de un vehículo de carreras.
+
+5. **Visualización y Exportación:**
+   * Genera tres gráficos independientes: la ruta D\* sin suavizar, la curva B-Spline suavizada, y una comparativa superpuesta de ambas.
+   * Guarda los puntos de la ruta resultante en archivos CSV (`d_path.csv` y `bspline.csv`).
+
+---
+
+### Parámetros Principales a Modificar
+
+Puedes personalizar el comportamiento del script modificando las siguientes variables en el bloque principal (`if __name__ == "__main__":`):
+
+| Parámetro | Dónde se encuentra | Descripción |
+| :--- | :--- | :--- |
+| **`yaml_path`** | Línea principal | Ruta al archivo `.yaml` del mapa que deseas cargar (ej. `F1tenth_map1.yaml`). |
+| **`downsample_factor`** | Línea principal | Factor de reducción de escala del mapa. Valores más altos aceleran el cálculo pero reducen la precisión geométrica; valores bajos aumentan la resolución y el tiempo de procesamiento. |
+| **`x_start, y_start`** | Línea principal | Coordenadas en el mundo real (metros) para la posición inicial del vehículo. |
+| **`x_goal, y_goal`** | Línea principal | Coordenadas en el mundo real (metros) para el punto de destino u objetivo. |
+| **`step` (BSpline)** | `BSpline(step=0.5, k=4)` | Distancia o paso de interpolación para los puntos de la curva suavizada. |
+| **`k` (BSpline)** | `BSpline(step=0.5, k=4)` | Grado de la curva B-Spline (por defecto `4` para curvas cúbicas suaves). |
+
+Se generarán dos archivos csv para la curva sin suavizar y con suavizado, encontrados en Repositorio. 
