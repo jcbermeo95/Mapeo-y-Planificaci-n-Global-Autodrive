@@ -48,3 +48,6 @@ This file defines the metadata used to interpret the 2D occupancy grid map in RO
 
 # Generaciòn de la trayectoria de planificaciòn global y suavizado de curva.
 
+Primero se requiere descargar el repositorio desde el terminal:
+```bash
+git clone [https://github.com/jcbermeo95/Mapeo-y-Planificaci-n-Global-Autodrive.git](https://github.com/jcbermeo95/Mapeo-y-Planificaci-n-Global-Autodrive.git)
