@@ -130,7 +130,7 @@ if __name__ == "__main__":
     vis2.ax.set_xlim(map_.bounds[0])
     vis2.ax.set_ylim(map_.bounds[1])
     vis2.fig.subplots_adjust(left=0.05, right=0.95, bottom=0.05, top=0.95)
-    vis2.plot_path(smooth_path, style="-", color="C1", linewidth=2)
+    vis2.plot_path(smooth_path, style="-", color="C1", map_frame=False, linewidth=2, )
     vis2.show()
     vis2.close()
     
@@ -145,4 +145,5 @@ if __name__ == "__main__":
     vis3.show()
     vis3.close()
     
-    save_path_as_csv(path, "d_path_real.csv", resolution, origin, map_bin.shape[0])
+    save_path_as_csv(path, "d_path.csv", resolution, origin, map_bin.shape[0])
+    save_path_as_csv(path, "bspline.csv", resolution, origin, map_bin.shape[0])
