@@ -34,20 +34,24 @@ La evidencia del mapeo generado en este proyecto se presentan en el video del si
 El archivo yaml generado presenta las siguientes caracterìsticas
 ### Map Configuration Parameters (`.yaml`)
 
-This file defines the metadata used to interpret the 2D occupancy grid map in ROS 2.
+### Parámetros de Configuración del Mapa (`.yaml`)
 
-| Parameter | Value | Description |
+Este archivo define los metadatos utilizados para interpretar el mapa de cuadrícula de ocupación 2D en ROS 2.
+
+| Parámetro | Valor | Descripción |
 | :--- | :--- | :--- |
-| **`image`** | `F1tenth_map.pgm` | Path to the image file containing the map data (usually a Portable Gray Map). |
-| **`mode`** | `trinary` | Determines pixel classification: pixels are interpreted as either free, occupied, or unknown. |
-| **`resolution`** | `0.05` | The spatial resolution of the map, measured in **meters per pixel**. (0.05 = 5 cm per pixel). |
-| **`origin`** | `[-4.18, -8.79, 0]` | The real-world coordinates `[x, y, yaw]` (meters, radians) of the map's bottom-left pixel. |
-| **`negate`** | `0` | Inverts color interpretation. `0` = standard (white is free, black is occupied). |
-| **`occupied_thresh`** | `0.65` | Threshold (0 to 1). Values above this are treated as completely occupied (obstacles). |
-| **`free_thresh`** | `0.25` | Threshold (0 to 1). Values below this are treated as completely free (navigable space). |
+| **`image`** | `F1tenth_map.pgm` | Ruta al archivo de imagen que contiene los datos del mapa (generalmente un archivo PGM / Portable Gray Map). |
+| **`mode`** | `trinary` | Determina cómo se interpretan los valores de los píxeles: se clasifican en libre, ocupado o desconocido. |
+| **`resolution`** | `0.05` | La resolución espacial del mapa, medida en **metros por píxel**. (0.05 equivale a 5 cm por píxel). |
+| **`origin`** | `[-4.18, -8.79, 0]` | Las coordenadas del mundo real `[x, y, yaw]` (metros, radianes) correspondientes a la esquina inferior izquierda del mapa. |
+| **`negate`** | `0` | Invierte la interpretación de los colores blanco y negro. `0` = estándar (blanco es libre, negro es ocupado). |
+| **`occupied_thresh`** | `0.65` | Umbral de probabilidad (de 0 a 1). Los valores superiores a este se consideran completamente ocupados (obstáculos). |
+| **`free_thresh`** | `0.25` | Umbral de probabilidad (de 0 a 1). Los valores inferiores a este se consideran espacio totalmente libre y navegable. |
 
 # Generaciòn de la trayectoria de planificaciòn global y suavizado de curva.
 
 Primero se requiere descargar el repositorio desde el terminal:
 ```bash
 git clone [https://github.com/jcbermeo95/Mapeo-y-Planificaci-n-Global-Autodrive.git](https://github.com/jcbermeo95/Mapeo-y-Planificaci-n-Global-Autodrive.git)
+```
+Ahora crear una carpeta dentro del repositorio descargado , ubicado en Home, con el nombre de python_motion_planning y agregar las carpetas de common, controller, path_planner y traj_optimizer, además del archivo __init__.py. Crear ademàs otra carpeta en el repositorio con el nombre de Mapas-F1Tenth. Previo a mover los archivos pgm y yaml creados en el paso del mapeo se debe modificar la pista generada agregando un obstáculo rectangular para indicar separar la región del punto inicial y final de la trayectoria generada por el algoritmo de planificación global, en este caso D*. Esta imagen tiene que convertirse a formato png y en el archivo yaml se tiene que modificar el nombre del camino con su respectiva extensión png en el parámetro image. 
